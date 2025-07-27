@@ -4,11 +4,12 @@ import CRTTerminal from './components/CRTTerminal'
 import Epsilon from './pages/Epsilon'
 
 function App() {
+	// hello
 	return (
-		<Router basename="/ShamaProject/">
+		<Router basename='/ShamaProject/'>
 			<Routes>
-				<Route path="/" element={<CRTTerminal />} />
-				<Route path="/epsilon/" element={<Epsilon />} />
+				<Route path='/' element={<CRTTerminal />} />
+				<Route path='/epsilon/' element={<Epsilon />} />
 			</Routes>
 		</Router>
 	)
