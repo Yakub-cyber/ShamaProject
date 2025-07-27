@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
+
+:root {
+	--green-color: #5bf870;
+	--green-bg: #05321e;
+	--off: #050505;
+	--dark: #111;
+	--term: '> ';
+	--color: var(--green-color);
+	--bg: var(--green-bg);
+}
+
+body {
+	margin: 0;
+	overflow: hidden;
+	font-family: 'VT323', monospace;
+	background: #111;
+}
+
+#monitor {
+	display: flex;
+	flex-direction: column;
+	background: #232723;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 40px 0 #071b0f;
+}
+
+#screen {
+	position: relative;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 30px #00ff00;
+}
+
+#crt {
+	min-width: 70ch;
+	min-height: 1000px;
+	font-size: 2.2rem;
+	background: var(--bg);
+	background-image: radial-gradient(ellipse, var(--bg) 0%, var(--off) 90%);
+	color: var(--color);
+	text-shadow: 0 0 8px #5bf870, 0 0 16px #3dff85;
+	animation: on 2s linear;
+	transition: all 0.5s;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 40px 0 #0f0;
+	position: relative;
+}
+
+#crt:before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: linear-gradient(
+		to bottom,
+		rgba(18, 16, 16, 0.1) 50%,
+		rgba(0, 0, 0, 0.25) 50%
+	);
+	background-size: 100% 8px;
+	z-index: 2;
+	pointer-events: none;
+	animation: fadeIn 2s;
+}
+
+.scanline {
+	width: 100%;
+	height: 100px;
+	z-index: 8;
+	background: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 0) 0%,
+		rgba(255, 255, 255, 0.2) 10%,
+		rgba(0, 0, 0, 0.1) 100%
+	);
+	opacity: 0.1;
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	pointer-events: none;
+	animation: scanline 8s linear infinite;
+}
+
+.terminal {
+	min-height: 12em;
+	padding-top: 5rem;
+	overflow-y: auto;
+	overflow-x: hidden;
+	word-break: break-word;
+	text-transform: uppercase;
+	animation: textShadow 4s infinite;
+	color: var(--color);
+	text-shadow: 0 0 5px #3dff85;
+}
+
+#output .char {
+	animation: flicker 2s infinite;
+}
+
+#input {
+	position: relative;
+	display: block;
+	white-space: pre-wrap;
+	margin-top: 1.2em;
+	outline: none;
+	caret-color: transparent;
+}
+
+#input::before {
+	content: var(--term);
+	color: var(--color);
+}
+
+#input::after {
+	content: '■';
+	animation: cursor 1s infinite step-end;
+	margin-left: 2px;
+	color: var(--color);
+}
+
+[contenteditable='true'] br:last-child {
+	display: none;
+}
+
+::selection {
+	background: var(--color);
+	color: var(--bg);
+	text-shadow: none;
+}
+
+@keyframes flicker {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+@keyframes on {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes scanline {
+	0% {
+		bottom: 100%;
+	}
+	100% {
+		bottom: 0%;
+	}
+}
+
+@keyframes cursor {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes textShadow {
+	0%,
+	100% {
+		text-shadow: 0 0 10px #22ff66;
+	}
+	50% {
+		text-shadow: 0 0 30px #00ff99;
+	}
+}
