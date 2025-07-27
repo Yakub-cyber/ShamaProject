@@ -32,8 +32,112 @@ const EpsilonTerminal = () => {
 		'Навыки / Специализации / (отметье все подходящее)'
 	]
 
+	const checkboxQuestions = {
+		8: { // Уровень допуска
+			question: 'Уровень допуска:',
+			options: [
+				'0 - гражданский',
+				'1 - лабораторный доступ', 
+				'2 - внутренняя сеть',
+				'3 - ядро системы',
+				'Black - экспериментальный ИИ-допуск (запрещено)'
+			]
+		},
+		9: { // Опыт взаимодействия с ИИ/киберсистемами
+			question: 'Опыт взаимодействия с ИИ/киберсистемами:',
+			options: [
+				'Пользователь',
+				'Инженер',
+				'Архитектор',
+				'Создатель'
+			]
+		},
+		10: { // Типы систем
+			question: 'С какими типами систем вы работали:',
+			options: [
+				'Нейросети',
+				'Дроны',
+				'Биокодинг',
+				'Передача памяти',
+				'Бета-модуляция',
+				'Взлом закрытых каналов',
+				'Другое'
+			]
+		},
+		11: { // Связь с инцидентами
+			question: 'Связь с предыдущими инцидентами или утечками:',
+			options: [
+				'Нет',
+				'Да (уточните)'
+			]
+		},
+		12: { // Импланты
+			question: 'Наличие имплантов или вмешательств в ЦНС:',
+			options: [
+				'Нет',
+				'Да (тип, производитель)'
+			]
+		},
+		13: { // Галлюцинации
+			question: 'Склонны ли вы к галлюцинациям / дежавю / расщеплению личности?',
+			options: [
+				'Нет',
+				'Иногда',
+				'Часто',
+				'Неизвестно'
+			]
+		},
+		14: { // Обрезка сигнала
+			question: 'Проходили ли вы «Обрезку сигнала»?',
+			options: [
+				'Да (уровень)',
+				'Нет',
+				'Неизвестно'
+			]
+		},
+		15: { // Навыки
+			question: 'Навыки / Специализация (отметьте все подходящее):',
+			options: [
+				'Архитектор ИИ',
+				'Цифровой шифровальщик',
+				'Техник-дронов',
+				'Системный инженер',
+				'Взломщик протоколов',
+				'Хирург памяти',
+				'Создание вирусов',
+				'Радиохимик',
+				'Другое'
+			]
+		}
+	}
+
 	const appendLine = line => {
 		setHistory(prev => [...prev, line])
+		// Автоматическая прокрутка вниз после добавления новой строки
+		setTimeout(() => {
+			if (outputRef.current) {
+				outputRef.current.scrollTop = outputRef.current.scrollHeight
+			}
+		}, 100)
+	}
+
+	const showCheckboxQuestion = (questionIndex) => {
+		const checkboxData = checkboxQuestions[questionIndex]
+		if (checkboxData) {
+			appendLine('')
+			appendLine(checkboxData.question)
+			checkboxData.options.forEach((option, index) => {
+				appendLine(`[${index + 1}] ${option}`)
+			})
+			appendLine('')
+			appendLine('Введите номера выбранных вариантов через запятую:')
+			// Дополнительная прокрутка для чекбоксов
+			setTimeout(() => {
+				if (outputRef.current) {
+					outputRef.current.scrollTop = outputRef.current.scrollHeight
+				}
+			}, 200)
+		}
 	}
 
 	const saveToFile = (data) => {
@@ -70,8 +174,13 @@ ${Object.entries(data).map(([question, answer]) => `${question}: ${answer}`).joi
 			setCurrentQuestion(nextQuestion)
 			
 			if (nextQuestion < questions.length) {
-				appendLine('')
-				appendLine(questions[nextQuestion - 1]) // -1 для правильного индекса
+				// Проверяем, есть ли чекбоксы для следующего вопроса
+				if (checkboxQuestions[nextQuestion]) {
+					showCheckboxQuestion(nextQuestion)
+				} else {
+					appendLine('')
+					appendLine(questions[nextQuestion - 1]) // -1 для правильного индекса
+				}
 			} else {
 				// Все вопросы заполнены
 				appendLine('')
@@ -122,6 +231,12 @@ ${Object.entries(data).map(([question, answer]) => `${question}: ${answer}`).joi
 
 	useEffect(() => {
 		inputRef.current.focus()
+		// Прокрутка вниз при загрузке
+		setTimeout(() => {
+			if (outputRef.current) {
+				outputRef.current.scrollTop = outputRef.current.scrollHeight
+			}
+		}, 500)
 	}, [])
 
 	return (
