@@ -17,10 +17,10 @@ const CRTTerminal = () => {
 	const handleCommand = async command => {
 		appendLine(`> ${command}`)
 
-		if (command === 'epsilon application') {
+		if (command === 'epsilon application' || command === 'EPSILON APPLICATION') {
 			appendLine('ПОДКЛЮЧЕНИЕ К СИСТЕМЕ...')
 			setTimeout(() => {
-				window.location.href = '/terminal/epsilon/'
+				window.location.href = '/ShamaProject/epsilon/'
 			}, 1200)
 			return
 		}
