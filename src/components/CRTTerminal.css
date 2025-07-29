@@ -34,7 +34,7 @@ body {
 
 #crt {
 	min-width: 70ch;
-	min-height: 1000px;
+	min-height: 100vh;    /* ← изменено для растяжения на всю высоту окна */
 	font-size: 2.2rem;
 	background: var(--bg);
 	background-image: radial-gradient(ellipse, var(--bg) 0%, var(--off) 90%);
@@ -133,8 +133,7 @@ body {
 }
 
 @keyframes flicker {
-	0%,
-	100% {
+	0%, 100% {
 		opacity: 1;
 	}
 	50% {
@@ -161,8 +160,7 @@ body {
 }
 
 @keyframes cursor {
-	0%,
-	100% {
+	0%, 100% {
 		opacity: 1;
 	}
 	50% {
@@ -180,8 +178,7 @@ body {
 }
 
 @keyframes textShadow {
-	0%,
-	100% {
+	0%, 100% {
 		text-shadow: 0 0 10px #22ff66;
 	}
 	50% {
